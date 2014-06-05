@@ -51,13 +51,16 @@ describe "predict email addresses" do
     end
 
     it "returns possible email matches if domain is found in database" do
-      expect(good_inputs.find_domain_in_database.first).to match("john.ferguson@alphasights.com")
+      expect(good_inputs.find_domain_in_database.first.downcase).to match("john.smith@alphasights.com")
     end
   end
 
   describe "returns predicted email address based on past advisor emails" do
-    expect(good_inputs.find_domain_in_database).to match("Email pattern detected! Try: john.smith@alphasights.com")
-    expect(good_inputs_notin_db.find_domain_in_database).to match("Sorry, no pattern recommendation available!")
-    expect(google_input.find_domain_in_database).to match("2 email patterns detected! Try: merchant.m@google.com or m.mykonos@google.com")
+    it "prints to terminal possible email patterns" do 
+      expect(good_inputs.find_domain_in_database.first.downcase).to match("john.smith@alphasights.com")
+      expect(good_inputs_notin_db.find_domain_in_database).to be_falsey
+      expect(google_input.find_domain_in_database.first.downcase).to match("merchant.m@google.com").or match("m.mykonos@google.com")
+      expect(google_input.find_domain_in_database.last.downcase).to match("merchant.m@google.com").or match("m.mykonos@google.com")
+    end
   end
 end 

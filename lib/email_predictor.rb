@@ -50,12 +50,21 @@ class Predictor
 
   def evaluate_matching_domains(array)
     if array.empty?
-      puts "Sorry, no pattern recommendation available!"
+      puts "Sorry, no email pattern recommendation available!"
       return false
     else 
+      possible_email_matches = []
+
       array.each do |email_address|
-        pattern_matcher(email_address)
+        possible_email_matches << pattern_matcher(email_address)
       end
+
+      possible_email_matches.uniq!
+
+      puts "#{possible_email_matches.count} email pattern(s) detected! Try:"  
+        possible_email_matches.each do |email| 
+          puts "#{email}" 
+        end
     end
   end
 
@@ -65,13 +74,13 @@ class Predictor
     user_input_name = @name.split(" ")
 
     if name_from_db.first == email_pattern.first && name_from_db.last == email_pattern.last
-      puts "Email pattern detected! Try: #{user_input_name.first}.#{user_input_name.last}@#{@domain}"
+      return "#{user_input_name.first}.#{user_input_name.last}@#{@domain}"
     elsif name_from_db.first[0] == email_pattern.first && name_from_db.last == email_pattern.last
-      puts "Email pattern detected! Try: #{user_input_name.first[0]}.#{user_input_name.last}@#{@domain}"
+      return "#{user_input_name.first[0]}.#{user_input_name.last}@#{@domain}"
     elsif name_from_db.first == email_pattern.first && name_from_db.last[0] == email_pattern.last
-      puts "Email pattern detected! Try: #{user_input_name.first}.#{user_input_name.last[0]}@#{@domain}"
+      return "#{user_input_name.first}.#{user_input_name.last[0]}@#{@domain}"
     elsif name_from_db.first[0] == email_pattern.first && name_from_db.last[0] == email_pattern.last
-      puts "Email pattern detected! Try: #{user_input_name.first[0]}.#{user_input_name.last[0]}@#{@domain}"
+      return "#{user_input_name.first[0]}.#{user_input_name.last[0]}@#{@domain}"
     end
   end
 end
