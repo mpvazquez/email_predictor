@@ -7,6 +7,7 @@ gem 'shoulda-matchers'
 describe "predict email addresses" do
   let(:good_inputs) { Predictor.new("John Smith", "AlphaSights.com") }
   let(:good_inputs_notin_db) { Predictor.new("Terry Jackson", "blue-sharks.co.uk")}
+  let(:google_input) { Predictor.new("Merchant Mykonos", "google.com")}
   let(:bad_inputs) { Predictor.new("Johnny", "AlphaSights") }
 
   describe "by accepting input of advisor's full-name and email" do
@@ -55,6 +56,8 @@ describe "predict email addresses" do
   end
 
   describe "returns predicted email address based on past advisor emails" do
-
+    expect(good_inputs.find_domain_in_database).to match("Email pattern detected! Try: john.smith@alphasights.com")
+    expect(good_inputs_notin_db.find_domain_in_database).to match("Sorry, no pattern recommendation available!")
+    expect(google_input.find_domain_in_database).to match("2 email patterns detected! Try: merchant.m@google.com or m.mykonos@google.com")
   end
 end 
