@@ -44,6 +44,14 @@ describe "predict email addresses" do
       expect(good_inputs.find_domain_in_database).to be_truthy
       expect(good_inputs_notin_db.find_domain_in_database).to be_falsey
     end
+
+    it "returns false if no record of email is found in database" do
+      expect(good_inputs_notin_db.find_domain_in_database).to be_falsey
+    end
+
+    it "returns possible email matches if domain is found in database" do
+      expect(good_inputs.find_domain_in_database.first).to match("john.ferguson@alphasights.com")
+    end
   end
 
   describe "returns predicted email address based on past advisor emails" do

@@ -36,11 +36,28 @@ class Predictor
   def find_domain_in_database
     database = EmailDatabase::EmailList.new
 
+    possible_email_matches = []
+
     database.email_list.values.each do |email|
-      domain = email.split("@")
-      # binding.pry
+      db_domain = email.split("@")
+      if domain.downcase.match(db_domain[1].downcase) != nil
+        possible_email_matches << email
+      end
+    end
+
+    evaluate_matching_domains(possible_email_matches)
+  end
+
+  def evaluate_matching_domains(array)
+    if array.empty?
+      return false
+    else 
+      array.each do |email|
+        puts email
+      end
     end
   end
+
 end
 
 ###### Start Loop ########
