@@ -1,13 +1,26 @@
 require 'spec_helper'
 require_relative '../lib/email_predictor'
 
+gem 'activemodel'
+gem 'shoulda-matchers'
+
 describe "predict email addresses" do
   describe "by accepting input of advisor's full-name and email" do
+    let(:good_inputs) { Predictor.new("John Smith", "AlphaSights.com") }
+    let(:bad_inputs) { Predictor.new("Johnny", "AlphaSights") }
+
     it "accepts a full name that is separated by a space" do
-      
+      expect(Predictor.validate_name(good_inputs.name)).to be_truthy
+      expect(Predictor.validate_name(bad_inputs.name)).to be_falsey
+      expect(Predictor.validate_name("Joanne ")).to be_falsey
+      expect(Predictor.validate_name("     Joanne")).to be_falsey
     end
 
-    it "makes sure input is lowercase" do
+    it "splits full name based on the space" do
+
+    end
+
+    it "validates that input is lowercase" do
 
     end
 
@@ -15,7 +28,7 @@ describe "predict email addresses" do
 
     end
 
-    it "checks to make sure domain has a valid (dot) notation" do
+    it "validates that domain is in proper (dot) notation" do
 
     end
   end
