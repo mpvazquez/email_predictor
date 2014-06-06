@@ -12,6 +12,6 @@ Install pry by typing 'gem instal pry' into terminal
 
 Type 'ruby email_predictor.rb' into terminal
 
-## Step 4
+### Step 4
 
 Follow Directions in terminal
