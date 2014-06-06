@@ -1,9 +1,11 @@
+require_relative '../modules/input_validator'
 # require 'pry'
 require 'json'
 
 ####### Email Predictor Class #######
 
 class EmailPredictor
+  extend InputValidator
 
   def initialize(name, domain)
     @name = name.downcase
@@ -15,28 +17,6 @@ class EmailPredictor
 
   attr_reader :name
   attr_reader :domain
-
-  def self.validate_name(name)
-
-    # Class method that validates a user input name
-    split_name = name.split(" ")
-    if split_name.count < 2 && /^([A-Z][a-z]*((\s)))+[A-Z][a-z]*$/i.match(name) == nil
-      puts "Valid Name Example: 'John Smith'"
-      return false
-    else
-      return true
-    end
-  end
-
-  # Class method that validates user input domain
-  def self.validate_domain(domain)
-    if /[A-Z0-9.-]+\.[A-Z]{2,4}/i.match(domain) == nil
-      puts "Valid Domain Example: 'example.com'"
-      return false
-    else 
-      return true
-    end
-  end
 
   # Main instance method that checks given inputs against database
   def find_domain_in_database

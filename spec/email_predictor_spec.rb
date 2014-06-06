@@ -1,4 +1,4 @@
-require_relative '../lib/email_predictor'
+require_relative '../lib/classes/email_predictor'
 
 describe EmailPredictor do
   let(:good_inputs) { EmailPredictor.new("John Smith", "AlphaSights.com") }
@@ -9,22 +9,22 @@ describe EmailPredictor do
   describe "by accepting input of advisor's full-name and email" do
 
     it "accepts a full name that is separated by a space" do
-      expect(EmailPredictor.validate_name(good_inputs.name)).to be_truthy
-      expect(EmailPredictor.validate_name(bad_inputs.name)).to be_falsy
-      expect(EmailPredictor.validate_name("Joanne ")).to be_falsy
-      expect(EmailPredictor.validate_name("     Joanne")).to be_falsy
+      expect(validate_name(good_inputs.name)).to be_truthy
+      expect(validate_name(bad_inputs.name)).to be_falsy
+      expect(validate_name("Joanne ")).to be_falsy
+      expect(validate_name("     Joanne")).to be_falsy
     end
 
     it "validates without case-sensitivity" do
-      expect(EmailPredictor.validate_name(good_inputs.name)).to be_truthy
-      expect(EmailPredictor.validate_name("john smithy")).to be_truthy
+      expect(validate_name(good_inputs.name)).to be_truthy
+      expect(validate_name("john smithy")).to be_truthy
       expect(EmailPredictor.validate_domain(good_inputs.domain)).to be_truthy
       expect(EmailPredictor.validate_domain("EXAMPLE.COM")).to be_truthy
     end
 
     it "rejects inputs that do not fit validations" do
       expect(EmailPredictor.validate_domain(good_inputs_not_in_db.domain)).to be_truthy
-      expect(EmailPredictor.validate_name(bad_inputs.name)).to be_falsy
+      expect(validate_name(bad_inputs.name)).to be_falsy
       expect(EmailPredictor.validate_domain(bad_inputs.domain)).to be_falsy
     end
 

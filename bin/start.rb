@@ -1,4 +1,4 @@
-require_relative '../lib/email_predictor'
+require_relative '../lib/classes/email_predictor'
 
 ####### Start Loop For User Input #######
 
