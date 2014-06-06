@@ -20,7 +20,7 @@ class EmailPredictor
 
     # Class method that validates a user input name
     split_name = name.split(" ")
-    if split_name.count < 2 && /^([A-Z][a-z]*((\s)))+[A-Z][a-z]*$/i.match(name)
+    if split_name.count < 2 && /^([A-Z][a-z]*((\s)))+[A-Z][a-z]*$/i.match(name) == nil
       puts "Valid Name Example: 'John Smith'"
       return false
     else
