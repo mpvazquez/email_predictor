@@ -5,6 +5,7 @@ require 'json'
 ####### Email Predictor Class #######
 
 class EmailPredictor
+  # extends input_validator.rb module methods as class methods
   extend InputValidator
 
   def initialize(name, domain)
@@ -17,6 +18,10 @@ class EmailPredictor
 
   attr_reader :name
   attr_reader :domain
+
+  def generate_email
+    
+  end
 
   # Main instance method that checks given inputs against database
   def find_domain_in_database
