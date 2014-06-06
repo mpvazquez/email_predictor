@@ -1,4 +1,3 @@
-require 'spec_helper'
 require_relative '../lib/email_predictor'
 
 describe "predict email addresses" do
