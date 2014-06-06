@@ -6,12 +6,16 @@ Navigate into 'email_predictor' folder using terminal
 
 ### Step 2 (Optional) 
 
-Install pry by typing 'gem instal pry' into terminal
+Install pry by typing 'gem install pry' into terminal
 
-### Step 3
+### Step 3 (Optional) 
 
-Type 'ruby email_predictor.rb' into terminal
+Install json by typing 'gem install json' into terminal
 
 ### Step 4
+
+Type 'ruby bin/start.rb' into terminal
+
+### Step 5
 
 Follow Directions in terminal
