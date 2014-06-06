@@ -1,6 +1,6 @@
 require_relative '../lib/email_predictor'
 
-describe "predict email addresses" do
+describe EmailPredictor do
   let(:good_inputs) { EmailPredictor.new("John Smith", "AlphaSights.com") }
   let(:good_inputs_not_in_db) { EmailPredictor.new("Terry Jackson", "blue-sharks.co.uk")}
   let(:google_input) { EmailPredictor.new("Merchant Mykonos", "google.com")}
