@@ -3,7 +3,7 @@ require_relative 'email_database'
 
 ####### Email Predictor Class #######
 
-class Predictor
+class EmailPredictor
   include EmailDatabase
 
   def initialize(name, domain)
@@ -108,14 +108,14 @@ end
 begin
   puts "Please enter Advisor's full-name:"
   name = gets.chomp
-end until Predictor.validate_name(name) == true
+end until EmailPredictor.validate_name(name) == true
 
 begin
   puts "Please enter Advisor's domain:"
   domain = gets.chomp
-end until Predictor.validate_domain(domain) == true
+end until EmailPredictor.validate_domain(domain) == true
 
-new_query = Predictor.new(name, domain)
+new_query = EmailPredictor.new(name, domain)
 puts "Successful Input Validation! #{new_query.name.split(" ").first.capitalize} #{new_query.name.split(" ").last.capitalize}, #{new_query.domain}"
 
 new_query.find_domain_in_database
