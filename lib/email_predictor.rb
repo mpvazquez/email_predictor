@@ -1,16 +1,17 @@
 # require 'pry'
+require 'json'
 require_relative 'email_database'
 
 ####### Email Predictor Class #######
 
 class EmailPredictor
-  include EmailDatabase
 
   def initialize(name, domain)
     @name = name.downcase
     @domain = domain.downcase
-    # instance of email list database
-    @database = EmailDatabase::EmailList.new
+    # instance of email list database json
+    json = File.read('data/email_database.json')
+    @database = JSON.parse(json)
   end
 
   attr_reader :name
@@ -45,7 +46,7 @@ class EmailPredictor
     # iterate through each instance in the database if given 
     # domain matches a domain in the db's email list, 
     # we push that email into an array
-    @database.email_list.values.each do |email_domain|
+    @database.values.each do |email_domain|
       db_domain = email_domain.split("@")
       if domain == db_domain[1]
         possible_email_matches << email_domain
@@ -84,7 +85,7 @@ class EmailPredictor
 
   # this method is called to return email based on the email pattern
   def pattern_matcher(email)
-    db_name = @database.email_list.key(email).downcase.split(" ")
+    db_name = @database.key(email).downcase.split(" ")
     domain_pattern = email.split("@")[0].split(".")
     user_input_name = name.split(" ")
 
