@@ -7,18 +7,20 @@ class Predictor
   include EmailDatabase
 
   def initialize(name, domain)
-    @name = name
-    @domain = domain
+    @name = name.downcase
+    @domain = domain.downcase
+    # instance of email list database
+    @database = EmailDatabase::EmailList.new
   end
 
-  attr_accessor :name
-  attr_accessor :domain
+  attr_reader :name
+  attr_reader :domain
 
   def self.validate_name(name)
 
     # Class method that validates a user input name
     split_name = name.split(" ")
-    if split_name.count < 2
+    if split_name.count < 2 && /^([A-Z][a-z]*((\s)))+[A-Z][a-z]*$/i.match(name)
       puts "Valid Name Example: 'John Smith'"
       return false
     else
@@ -38,9 +40,6 @@ class Predictor
 
   # Main instance method that checks given inputs against database
   def find_domain_in_database
-    # instance of email list database
-    @database = EmailDatabase::EmailList.new
-
     possible_email_matches = []
 
     # iterate through each instance in the database if given 
@@ -48,7 +47,7 @@ class Predictor
     # we push that email into an array
     @database.email_list.values.each do |email_domain|
       db_domain = email_domain.split("@")
-      if domain.downcase == db_domain[1].downcase
+      if domain == db_domain[1]
         possible_email_matches << email_domain
       end
     end
@@ -91,10 +90,13 @@ class Predictor
 
     if db_name.first == domain_pattern.first && db_name.last == domain_pattern.last
       return "#{user_input_name.first}.#{user_input_name.last}@#{domain}"
+
     elsif db_name.first[0] == domain_pattern.first && db_name.last == domain_pattern.last
       return "#{user_input_name.first[0]}.#{user_input_name.last}@#{domain}"
+
     elsif db_name.first == domain_pattern.first && db_name.last[0] == domain_pattern.last
       return "#{user_input_name.first}.#{user_input_name.last[0]}@#{domain}"
+
     elsif db_name.first[0] == domain_pattern.first && db_name.last[0] == domain_pattern.last
       return "#{user_input_name.first[0]}.#{user_input_name.last[0]}@#{domain}"
     end
@@ -105,12 +107,12 @@ end
 
 begin
   puts "Please enter Advisor's full-name:"
-  name = gets.chomp.downcase
+  name = gets.chomp
 end until Predictor.validate_name(name) == true
 
 begin
   puts "Please enter Advisor's domain:"
-  domain = gets.chomp.downcase
+  domain = gets.chomp
 end until Predictor.validate_domain(domain) == true
 
 new_query = Predictor.new(name, domain)
