@@ -9,12 +9,11 @@ begin
   domain = gets.chomp
 end until EmailPredictor.validate_domain(domain) == true
 
+new_query = EmailPredictor.new(domain)
+
 begin
   puts "Please enter Advisor's full-name:"
   name = gets.chomp
 end until EmailPredictor.validate_name(name) == true
 
-new_query = EmailPredictor.new(name, domain)
-puts "#######\nSuccessful Input Validation! #{new_query.name.split(" ").first.capitalize} #{new_query.name.split(" ").last.capitalize}, #{new_query.domain}\n#######"
-
-new_query.find_domain_in_database
+new_query.generate_email(name)
