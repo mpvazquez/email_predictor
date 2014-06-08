@@ -14,7 +14,7 @@ class DomainQuery
   attr_reader :domain
 
   # checks given domain to find matches in database
-  def find_matching_domains
+  def matching_domains
     possible_email_matches = []
 
     # iterates through each instance in the database.  
@@ -25,5 +25,11 @@ class DomainQuery
         possible_email_matches << email
       end
     end
+
+    return possible_email_matches
+  end
+
+  def full_list
+    return @email_database
   end
 end

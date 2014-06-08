@@ -12,15 +12,16 @@ class EmailPredictor
     @domain = domain.downcase
 
     # returns array of matching domains, if any
-    @database_emails = DomainQuery.new(@domain).find_matching_domains
+    @domain_query = DomainQuery.new(@domain)
   end
 
   attr_reader :domain
 
   # generates email based on name input
   def generate_email(name)
-  
-    if @database_emails.empty?
+    @name = name
+
+    if @domain_query.matching_domains.empty?
       # if the array is empty, then we return no results
       puts "Sorry, no email pattern recommendation available!"
       return false
@@ -29,7 +30,7 @@ class EmailPredictor
 
       # iterate through array of possible matches and push
       # result of pattern_matcher method into array
-      @database_emails.each do |email_address|
+      @domain_query.matching_domains.each do |email_address|
         possible_email_matches << pattern_matcher(email_address)
       end
 
@@ -46,9 +47,9 @@ class EmailPredictor
 
   # this method is called to return email based on the email pattern
   def pattern_matcher(email)
-    db_name = @database_emails.key(email).downcase.split(" ")
+    db_name = @domain_query.full_list.key(email).downcase.split(" ")
     domain_pattern = email.split("@")[0].split(".")
-    user_input_name = name.split(" ")
+    user_input_name = @name.split(" ")
 
     if db_name.first == domain_pattern.first && db_name.last == domain_pattern.last
       return "#{user_input_name.first}.#{user_input_name.last}@#{domain}"
