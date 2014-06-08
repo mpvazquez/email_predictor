@@ -9,13 +9,13 @@ describe EmailPredictor do
   describe "#generate_email" do
     it "accepts a name argument, a full name (first and last name), and returns an array" do
       alpha_sights_predictor = EmailPredictor.new("AlphaSights.com")
-      expect(alpha_sights_predictor.generate_email("John Smith")).to be_type_of(Array)
+      expect(alpha_sights_predictor.generate_email("John Smith")).to be_kind_of(Array)
     end
     
     context "no pattern detected" do
-      it "returns an array of all possible emails" do
-        alpha_sights_predictor = EmailPredictor.new("AlphaSights.com")
-        all_possible_emails = ["j.s@alphasights.com","john.s@alphasights.com","j.smith@alphasights.com","john.smith@alphasights.com"]
+      it "returns an empty array" do
+        alpha_sights_predictor = EmailPredictor.new("yahoo.com")
+        all_possible_emails = []
         expect(alpha_sights_predictor.generate_email("John Smith")).to eq(all_possible_emails)
       end
     end
@@ -23,18 +23,15 @@ describe EmailPredictor do
     context "one pattern detected" do
       it "returns an array with just that one email" do
         alpha_sights_predictor = EmailPredictor.new("AlphaSights.com")
-        alpha_sights_predictor.learn_pattern("jack.j@alphasights.com")
-        all_possible_emails = ["john.s@alphasights.com"]
+        all_possible_emails = ["john.smith@alphasights.com"]
         expect(alpha_sights_predictor.generate_email("John Smith")).to eq(all_possible_emails)
       end
     end
 
     context "more than one pattern detected" do
       it "returns an array of all learned patterns" do
-        alpha_sights_predictor = EmailPredictor.new("AlphaSights.com")
-        alpha_sights_predictor.learn_pattern("jack.j@alphasights.com")
-        alpha_sights_predictor.learn_pattern("jack.johnson@alphasights.com")
-        all_possible_emails = ["john.s@alphasights.com", "john.smith@alphasights.com"]
+        alpha_sights_predictor = EmailPredictor.new("google.com")
+        all_possible_emails = ["john.s@google.com", "j.smith@google.com"]
         expect(alpha_sights_predictor.generate_email("John Smith")).to eq(all_possible_emails)
       end
     end

@@ -1,6 +1,6 @@
 require_relative '../modules/input_validator'
 require_relative 'domain_query'
-require 'pry'
+# require 'pry'
 
 ####### Email Predictor Class #######
 
@@ -19,15 +19,14 @@ class EmailPredictor
 
   # generates email based on name input
   def generate_email(name)
+    possible_email_matches = []
     @name = name
 
     if @domain_query.matching_domains.empty?
       # if the array is empty, then we return no results
       puts "Sorry, no email pattern recommendation available!"
-      return false
+      return possible_email_matches
     else 
-      possible_email_matches = []
-
       # iterate through array of possible matches and push
       # result of pattern_matcher method into array
       @domain_query.matching_domains.each do |email_address|
@@ -42,6 +41,8 @@ class EmailPredictor
       possible_email_matches.each do |email| 
         puts "#{email}" 
       end
+
+      return possible_email_matches
     end
   end
 
@@ -49,7 +50,7 @@ class EmailPredictor
   def pattern_matcher(email)
     db_name = @domain_query.full_list.key(email).downcase.split(" ")
     domain_pattern = email.split("@")[0].split(".")
-    user_input_name = @name.split(" ")
+    user_input_name = @name.downcase.split(" ")
 
     if db_name.first == domain_pattern.first && db_name.last == domain_pattern.last
       return "#{user_input_name.first}.#{user_input_name.last}@#{domain}"
